@@ -2,7 +2,7 @@
 //  DetailPostViewController.swift
 //  Assessment
 //
-//  Created by Admin on 29/04/24.
+//  Bheema Badri on 29/04/24.
 //
 
 import UIKit
