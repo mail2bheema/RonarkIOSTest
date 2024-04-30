@@ -13,11 +13,12 @@ class PostsViewModel {
     private var currentPage = 1
     private let perPage = 10
     private var isLoading = false
+    private var url = "https://jsonplaceholder.typicode.com/posts?_page="
     
     func fetchPosts(completion: @escaping () -> Void) {
         guard !isLoading else { return }
         isLoading = true
-        let urlString = "https://jsonplaceholder.typicode.com/posts?_page=\(currentPage)&_limit=\(perPage)"
+        let urlString = "\(url)\(currentPage)&_limit=\(perPage)"
         guard let url = URL(string: urlString) else { return }
         URLSession.shared.dataTask(with: url) {[weak self] data, response, error in
             guard let data = data, error == nil else { return }
