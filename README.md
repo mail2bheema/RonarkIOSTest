@@ -1,6 +1,6 @@
 **Title**: iOS TableView Pagination with Loading Indicator
 **Overview:**
-This document describes the implementation of a paginated table view in an iOS application using Swift. The table view displays data fetched from a remote API in batches, with support for pagination. Additionally, a loading indicator is integrated to provide visual feedback to users during data fetching.
+This document describes the implementation of a paginated table view in an iOS application using SwiftUI. The table view displays data fetched from a remote API in batches, with support for pagination. Additionally, a loading indicator is integrated to provide visual feedback to users during data fetching.
 
 **Features:**
 Paginated fetching of data from a remote API.
