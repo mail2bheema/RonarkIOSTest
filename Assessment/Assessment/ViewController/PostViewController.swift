@@ -10,7 +10,6 @@ import UIKit
 class PostViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
-
     private var viewModel = PostsViewModel()
     private let cellIdentifier = "Cell"
     
@@ -65,7 +64,13 @@ extension PostViewController: UITableViewDataSource {
 
 extension PostViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // Handle row selection if needed
+        
+        let post = viewModel.posts[indexPath.row]
+
+        let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let detailPostViewController = storyBoard.instantiateViewController(withIdentifier: "detailPostViewController") as! DetailPostViewController
+        detailPostViewController.post = post
+        self.navigationController?.pushViewController(detailPostViewController,animated:true)
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
