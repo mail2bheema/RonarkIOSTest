@@ -12,6 +12,9 @@ class PostViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     private var viewModel = PostsViewModel()
     private let cellIdentifier = "Cell"
+    var isLoading = false
+    private var activityIndicator: UIActivityIndicatorView!
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,11 +25,21 @@ class PostViewController: UIViewController {
         tableView.delegate = self
         tableView.rowHeight = UITableView.automaticDimension
         tableView.tableFooterView = createLoadMoreFooterView()
+        
+        // Setup activity indicator
+        activityIndicator = UIActivityIndicatorView(style: .medium)
+        activityIndicator.center = view.center
+        view.addSubview(activityIndicator)
+
         fetchPosts()
+        isLoading = true
     }
     
     func fetchPosts() {
+
+        activityIndicator.startAnimating()
         viewModel.fetchPosts {
+            self.activityIndicator.stopAnimating()
             self.tableView.reloadData()
         }
     }
@@ -76,11 +89,13 @@ extension PostViewController: UITableViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offsetY = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height
-        let boundsHeight = scrollView.bounds.size.height
-        if offsetY > contentHeight - boundsHeight {
-            viewModel.loadMorePostsIfNeeded(for: IndexPath(row: viewModel.posts.count - 1, section: 0)) {
-                self.tableView.reloadData()
+        
+        if offsetY > contentHeight - scrollView.frame.height {
+            if !isLoading {
+                fetchPosts()
             }
         }
     }
+
 }
+

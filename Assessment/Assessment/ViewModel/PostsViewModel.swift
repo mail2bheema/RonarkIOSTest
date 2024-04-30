@@ -20,17 +20,23 @@ class PostsViewModel {
         isLoading = true
         let urlString = "\(url)\(currentPage)&_limit=\(perPage)"
         guard let url = URL(string: urlString) else { return }
-        URLSession.shared.dataTask(with: url) {[weak self] data, response, error in
-            guard let data = data, error == nil else { return }
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            guard let data = data, error == nil else {
+                print("Error fetching data:", error ?? "Unknown error")
+                self.isLoading = false // Reset isLoading flag
+                return
+            }
             do {
                 let newPosts = try JSONDecoder().decode([Post].self, from: data)
-                self?.posts.append(contentsOf: newPosts)
-                self?.isLoading = false
+                self.posts.append(contentsOf: newPosts)
+                self.currentPage += 1
+                self.isLoading = false
                 DispatchQueue.main.async {
                     completion()
                 }
             } catch {
-                print("Error decoding data: \(error)")
+                print("Error decoding data:", error)
+                self.isLoading = false 
             }
         }.resume()
     }
@@ -44,4 +50,6 @@ class PostsViewModel {
             }
         }
     }
+    
+
 }

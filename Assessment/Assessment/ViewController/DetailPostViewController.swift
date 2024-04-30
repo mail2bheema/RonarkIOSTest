@@ -15,7 +15,7 @@ class DetailPostViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Detail Post"
-        detailText.text = post?.title
+        detailText.text = post?.body
     }
     
 }
